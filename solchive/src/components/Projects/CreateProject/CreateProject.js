@@ -3,38 +3,31 @@ import axios, { post } from 'axios';
 import styles from './CreateProject.module.css';
 
 class CreateProject extends PureComponent {
-    constructor(props) {
-        super(props);
-        this.state = {
-            title: "",
-            team: "",
-            period: 2021,
-            framework: "",
-            body_text: "",
-            body_images: null,
-            file_name: null,
-            summary: "",
-            git_url: "",
-            name1: "",
-            comment1: "",
-            name2: "",
-            comment2: "",
-            name3: "",
-            comment3: "",
-            name4: "",
-            comment4: "",
-            name5: "",
-            comment5: "",
-            index: 2,
-            loginresult: "",
-        };
-        this.handleFileChange = this.handleFileChange.bind(this);
-        this.handleFormSubmit = this.handleFormSubmit.bind(this);
-        this.handleValueChange = this.handleValueChange.bind(this);
-        this.addProject = this.addProject.bind(this);
-    }
+    state = {
+        title: "",
+        team: "",
+        period: "",
+        framework: "",
+        body_text: "",
+        body_images: null,
+        file_name: "",
+        summary: "",
+        git_url: "",
+        name1: "",
+        comment1: "",
+        name2: "",
+        comment2: "",
+        name3: "",
+        comment3: "",
+        name4: "",
+        comment4: "",
+        name5: "",
+        comment5: "",
+        index: 2,
+        loginresult: "",
+    };
 
-    componentDidMount(){
+    componentDidMount() {
         this.chkId().catch(
             error => { console.log(error);
         });
@@ -56,7 +49,7 @@ class CreateProject extends PureComponent {
             this.setState({
                 loginresult: responseData.loginresult,
             });
-            
+
             console.log(responseData.loginresult);
             if(this.state.loginresult === false){
                 alert("로그인 후 이용해 주시길 바랍니다. 감사합니다.");
@@ -67,7 +60,7 @@ class CreateProject extends PureComponent {
         });
     }
 
-    handleFileChange(e) {
+    handleFileChange = (e) => {
         this.setState({
             body_images: e.target.files,
             file_name: e.target.value
@@ -76,14 +69,14 @@ class CreateProject extends PureComponent {
         console.log(e.target.value);
     }
 
-    handleFormSubmit(e) {
+    handleFormSubmit = (e) => {
         e.preventDefault();
         this.addProject().then((res) => {
             window.location.href = '/';
         });
     }
 
-    handleValueChange(e) {
+    handleValueChange = (e) => {
         let nextState = {};
         nextState[e.target.name] = e.target.value;
         console.log(nextState);
@@ -149,7 +142,7 @@ class CreateProject extends PureComponent {
         return (
             <div className={styles.form_wrapper}>
                 <h3>프로젝트 생성하기</h3>
-                <form className={styles.inputform} onSubmit={this.handleFormSubmit} method="post"> 
+                <form className={styles.inputform} onSubmit={this.handleFormSubmit} method="post">
                 <div className="form-group col-md-6 create--title">
                     <label>프로젝트 제목</label>
                     <input type="text" name="title" className="form-control" placeholder="제목" value={this.state.title} onChange={this.handleValueChange}/>
@@ -168,7 +161,7 @@ class CreateProject extends PureComponent {
                 </div>
                 <div className="form-group col-md-6 create--period">
                     <label>진행 년도</label>
-                    <select name="period" className="form-control" onChange={this.handleValueChange}> 
+                    <select name="period" className="form-control" onChange={this.handleValueChange}>
                         <option value="2021">2021</option>
                         <option value="2020">2020</option>
                         <option value="2019">2019</option>
@@ -180,15 +173,15 @@ class CreateProject extends PureComponent {
                 </div>
                 <div className={"form-group create--summary " + styles.form_textarea}>
                     <label>프로젝트에 대해 한 문장으로 간략하게 설명해 주세요.</label>
-                    <textarea className="form-control" name="summary" value={this.state.summary} rows="1" onChange={this.handleValueChange}></textarea>
+                    <textarea className="form-control" name="summary" value={this.state.summary} rows="2" onChange={this.handleValueChange}></textarea>
                 </div>
                     <div className="form-row">
 
                     </div>
-                    
+
                     <div className={"form-group create--bodytext " + styles.form_textarea}>
-                        <label>프로젝트에 대해 자세하게 설명해 주세요.</label>
-                        <textarea className="form-control" name="body_text" value={this.state.body_text} rows="20" onChange={this.handleValueChange}></textarea>
+                        <label>프로젝트를 진행하면서 가장 힘들었던 점은 무엇이었나요?</label>
+                        <textarea className="form-control" name="body_text" value={this.state.body_text} rows="2" onChange={this.handleValueChange}></textarea>
                     </div>
                     <div className={"form-group create--comments--wrapper " + styles.form_textarea}>
                         <label>이 프로젝트에 참가한 팀원들의 소감을 들려주세요. 오른쪽의 + 버튼을 눌러 팀원을 추가할 수 있습니다. (최대 5명)</label>
